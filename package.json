@@ -1,0 +1,40 @@
+{
+  "name": "server-creator",
+  "version": "1.0.0",
+  "description": "Interfaz gŕafica para crear servidores inicialmente usando express, node JS y PUG",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -w",
+    "dev": "nodemon build/servidor.js"
+  },
+  "keywords": [
+    "servidor",
+    "node",
+    "interfaz",
+    "grafica",
+    "pug",
+    "express",
+    "morgan"
+  ],
+  "author": "Daniel Boggiano Sáenz",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs-extra": "^9.0.0",
+    "googleapis": "^39.2.0",
+    "node-zip": "^1.1.1",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.3",
+    "@types/fs-extra": "^8.1.0",
+    "@types/morgan": "^1.9.0",
+    "@types/nodemon": "^1.19.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.2"
+  }
+}

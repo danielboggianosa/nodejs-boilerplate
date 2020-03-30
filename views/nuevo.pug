@@ -1,0 +1,77 @@
+extends templates/inner.pug
+block content
+    .row
+        .col-md-4.mx-auto.my-4
+            .card.shadow
+                .card-header
+                    h5.text-primary.font-weght-bold.m-0.text-center Crear un Nuevo Servidor
+                .card-body
+                    form#myForm
+                        .form-group
+                            label(for="tipo") Tipo de Servidor:
+                            select#tipo.form-control(name="tipo")
+                                option(value="0") Básico
+                                option(value="1") MySql
+                                option(value="2") MongoDB
+                            small#tipoMensaje.form-text.text-muted Se procedará a crear un servidor básico usando express sin conexión a base de datos
+                        .form-group
+                            label(for="nombre") Nombre *:
+                            input#nombre.form-control(type="text", name="nombre", placeholder="Nombre del Servidor", required="true")
+                            small#nombreAlerta.form-text.text-muted Ejemplo: "Servidor Web", "Servidor de Correos" "Nueva App"
+                        .form-group
+                            label(for="descripcion") Descripción:
+                            input#descripcion.form-control(type="text", name="descripcion", placeholder="Descripción del Servidor")
+                            small.form-text.text-muted Ejemplo: "Servidor API REST para aplicaciones moviles"
+                        .form-group
+                            label(for="puerto") Puerto:
+                            input#puerto.form-control(type="number", name="puerto", placeholder="Número del Puerto a usar")
+                            small.form-text.text-muted Ejemplo: "Servidor Web", "Servidor de Correos" "Nueva App"
+                        hr
+                        .text-right
+                            button.btn.btn-primary(type="submit") Generar
+                    
+    script.
+        $(document).ready((e)=>{
+            $("#nombre").focus()
+        })
+        const serverType = [
+            {value:'basico', message:'Se creará un servidor básico usando express'}, 
+            {value:'mysql', message:'Se creará un servidor usando express y sequelize'},
+            {value:'mongodb', message:'Se creará un servidor usando express y mongoose'}
+        ]
+        $("#tipo").change((e)=>{
+            let index = e.target.value
+            $("#tipoMensaje").html(serverType[index].message)
+        })
+        $("#nombre").keyup((e)=>{
+            let expresion = /^[a-zA-Z0-9$@$!%*?&#^-_. +]+$/;
+            if(e.target.value && !expresion.test(e.target.value))
+                $("#nombreAlerta").addClass('alert-danger p-1').html('contiene caracteres no admitidos');
+            else
+                $("#nombreAlerta").removeClass('alert-danger p-1').html('Ejemplo: "Servidor Web", "Servidor de Correos" "Nueva App"')
+        })
+        $("#myForm").submit((e)=>{
+            e.preventDefault()
+            let expresion = /^[a-zA-Z0-9$@$!%*?&#^-_. +]+$/
+            if( expresion.test($("#nombre").val()) ){
+                let data={};
+                for(let element of e.target.elements){
+                    if(element.name){
+                        if(element.name == "tipo")
+                            data[element.name]=serverType[element.value].value
+                        else
+                            data[element.name]=element.value
+                    }
+                }
+                $.ajax({
+                    url:"/api/",
+                    method:"POST",
+                    data:data,
+                    success:res=>{
+                        alert(res.message)
+                        if(res.success)
+                            e.target.reset()
+                    }
+                })
+            }
+        })

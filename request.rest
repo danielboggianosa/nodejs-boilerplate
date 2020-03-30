@@ -1,0 +1,9 @@
+POST http://localhost:4500/api/
+content-Type: application/json
+
+{
+    "nombre":"Daniel Boggiano 2",
+    "descipcion": "Servidor nuevo",
+    "tipo":"mongodb",
+    "puerto":3498
+}
